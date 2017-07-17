@@ -1,4 +1,5 @@
 ﻿//By Camron Bartlow with influence by ideas of random algorithms such as the not-so randomness of Bruteforcing and Prim's Algorithm
+//TODO: Create a full image and a way to output and save it, rather than use a series of PictureBoxes
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,6 +26,7 @@ namespace NewAlgorithm
 
             var form = Form.ActiveForm;
 
+			//1x1 doesn't look visually appealing and over 20 takes awhile to load
             if (y <= 1 || x <= 1 || y > 20 || x > 20)
             {
                 MessageBox.Show("X and Y cannot be less than 2 or greater than 20, please input another number", "Error",
@@ -111,7 +113,7 @@ namespace NewAlgorithm
 
                         } while (!gridTable[randX, randY]);// && (randX+moveX) != 0 && (randX+moveX) != 9 && (randY+moveY) != 0 && (randY+moveY) != 9);
                     } while (gridTable[changeX, changeY]);
-                } while (RoomOnAllSides(gridTable, randX, randY) && !RoomAvailableInDir(gridTable, moveX, moveY, randX, randY) && IsBorderClear(gridTable, x, y));
+                } while (RoomOnAllSides(gridTable, randX, randY) && !RoomAvailableInDir(gridTable, moveX, moveY, randX, randY));
                 gridTable[changeX, changeY] = true;
 
             }
@@ -131,19 +133,21 @@ namespace NewAlgorithm
             bool roomLeft = false;
             bool roomUp = false;
             bool roomDown = false;
+
+			//In place as it can check null areas
             if (table[xCheck + 1, yCheck] == true)
             {
                 roomRight = true;
             }
-            else if (table[xCheck - 1, yCheck] == true)
+            if (table[xCheck - 1, yCheck] == true)
             {
                 roomLeft = true;
             }
-            else if (table[xCheck, yCheck + 1] == true)
+            if (table[xCheck, yCheck + 1] == true)
             {
                 roomDown = true;
             }
-            else if (table[xCheck, yCheck - 1] == true)
+            if (table[xCheck, yCheck - 1] == true)
             {
                 roomUp = true;
             }
@@ -153,55 +157,48 @@ namespace NewAlgorithm
             return onAllSides;
         }
 
-
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="table"></param>
+		/// <param name="xCheck"></param>
+		/// <param name="yCheck"></param>
+		/// <returns></returns>
         static bool RoomOnAllSides(bool[,] table, int xCheck, int yCheck)
         {
             bool[] testTable = RoomOnAllSidesArr(table, xCheck, yCheck);
             if (testTable[0] || testTable[1] || testTable[2] || testTable[3])
             {
-                if (testTable[0] == testTable[1] && testTable[0] == testTable[2] && testTable[0] == testTable[3])
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
+				return testTable[0] == testTable[1] && testTable[0] == testTable[2] && testTable[0] == testTable[3];
             }
             else
             {
                 return false;
             }
         }
+
         static bool RoomAvailableInDir(bool[,] table, int moveInX, int moveInY, int pointerX, int pointerY)
         {
             if (moveInX != 0 && moveInY == 0)
             {
-                if (table[pointerX + moveInX, pointerY])
-                {
-                    return false;
-                }
-                else
-                {
-                    return true;
-                }
-            }
+				return !table[pointerX + moveInX, pointerY];
+			}
             else if (moveInX == 0 && moveInY != 0)
             {
-                if (table[pointerX, pointerY + moveInY])
-                {
-                    return false;
-                }
-                else
-                {
-                    return true;
-                }
-            }
+				return !table[pointerX, pointerY + moveInY];
+			}
             else
             {
                 return false;
             }
         }
+
+		/// <summary>
+		/// Outputs the 2D Boolean array to the Form by creating PictureBoxes
+		/// </summary>
+		/// <param name="array"></param>
+		/// <param name="xOfArray"></param>
+		/// <param name="yOfArray"></param>
         static void VisualizeArray(bool[,] array, int xOfArray, int yOfArray)
         {
             boxArr = new PictureBox[xOfArray, yOfArray];
@@ -221,14 +218,17 @@ namespace NewAlgorithm
 						Location = new System.Drawing.Point(xStart, yStart)
 					};
 					boxArr[j, i] = box;
-                    if (array[j, i] /*&& !(j == Convert.ToInt32(Math.Floor(Convert.ToDouble((xOfArray) / 2))) && i == Convert.ToInt32(Math.Floor(Convert.ToDouble((yOfArray) / 2))))*/)
+                    if (array[j, i])
                     {
                         box.BackgroundImage = WindowsFormsApplication1.Properties.Resources.white;
                     }
+
+					//Uncomment if you want to see the first initialized room
 					/*else if (j == Convert.ToInt32(Math.Floor(Convert.ToDouble((xOfArray) / 2))) && i == Convert.ToInt32(Math.Floor(Convert.ToDouble((yOfArray) / 2))))
 					{
 						box.BackgroundImage = WindowsFormsApplication1.Properties.Resources.red;
 					}*/
+
                     else
                     {
                         box.BackgroundImage = WindowsFormsApplication1.Properties.Resources.black;
@@ -239,36 +239,5 @@ namespace NewAlgorithm
                 yStart += 25;
             }
         }
-        static bool IsBorderClear(bool[,] table, int x, int y)
-        {
-            bool borderClear = true;
-
-            int rightBorder = x + 1;
-            int downwardBorder = y + 1;
-
-            for (int i = 0; i < table.GetLength(0); i++)
-            {
-                if (table[i, 0])
-                {
-                    borderClear = false;
-                }
-                if (table[i, downwardBorder])
-                {
-                    borderClear = false;
-                }
-            }
-            for (int j = 0; j < table.GetLength(1); j++)
-            {
-                if (table[0, j])
-                {
-                    borderClear = false;
-                }
-                if (table[rightBorder, j])
-                {
-                    borderClear = false;
-                }
-            }
-            return borderClear;
-        }
-    }
-}
+    }//Class
+}//Namespace
