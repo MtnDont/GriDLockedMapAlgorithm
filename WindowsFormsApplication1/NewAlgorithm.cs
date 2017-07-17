@@ -1,12 +1,7 @@
 ﻿//By Camron Bartlow with influence by ideas of random algorithms such as the not-so randomness of Bruteforcing and Prim's Algorithm
 //TODO: Create a full image and a way to output and save it, rather than use a series of PictureBoxes
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Resources;
 
 namespace NewAlgorithm
 {
@@ -57,10 +52,14 @@ namespace NewAlgorithm
             int changeX;
             int changeY;
 
+			//Takes a random Percentage from 30-50 and multiplies it by the dimensions and leads to the number of rooms
+			//or how many times the below for loop runs(as it fills the rooms w/ do while loops)
             double emptyRoomPerc = Math.Round(Convert.ToDouble(rand.Next(30, 51)));
             double numOfRooms = (x * y) - Math.Round(x * y * (emptyRoomPerc / 100));
 
+			//gives gridTable a border aka a tile row/column on each side
             gridTable = new bool[x + 2, y + 2];
+
             //Set center cell to always be a room
             gridTable[Convert.ToInt32(Math.Floor(Convert.ToDouble((x) / 2))), Convert.ToInt32(Math.Floor(Convert.ToDouble((y) / 2)))] = true;
             for (int i = 0; i < numOfRooms - 1; i++)
@@ -120,10 +119,10 @@ namespace NewAlgorithm
 		/// <summary>
 		/// Outputs the 2D Boolean array to the Form by creating PictureBoxes
 		/// </summary>
-		/// <param name="array"></param>
-		/// <param name="xOfArray"></param>
-		/// <param name="yOfArray"></param>
-        static void VisualizeArray(bool[,] array, int xOfArray, int yOfArray)
+		/// <param name="array">2D Boolean array of the map</param>
+		/// <param name="xOfArray">Width of map plus 2 for the border</param>
+		/// <param name="yOfArray">Height of map plus 2 for the border</param>
+		static void VisualizeArray(bool[,] array, int xOfArray, int yOfArray)
         {
             boxArr = new PictureBox[xOfArray, yOfArray];
 
