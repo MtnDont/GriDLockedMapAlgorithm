@@ -2,12 +2,15 @@
 //TODO: Create a full image and a way to output and save it, rather than use a series of PictureBoxes
 using System;
 using System.Windows.Forms;
+using System.Drawing;
 
 namespace NewAlgorithm
 {
     public class NewAlgorithm
     {
-        public static PictureBox[,] boxArr = null;
+        public static Image[,] boxArr = null;
+		public static Bitmap bitmap;
+		public static PictureBox box = null;
 
 		/// <summary>
 		/// Runs NAlgorithm and error checks when button in form is pressed
@@ -32,7 +35,7 @@ namespace NewAlgorithm
                 if (boxArr != null) {
                     for (int i = 0; i < boxArr.GetLength(1); i++) {
                         for (int j = 0; j < boxArr.GetLength(0); j++) {
-                            form.Controls.Remove(boxArr[j, i]);
+                            form.Controls.Remove(box);
                         }
                     }
                 }
@@ -124,47 +127,76 @@ namespace NewAlgorithm
 		/// <param name="yOfArray">Height of map plus 2 for the border</param>
 		static void VisualizeArray(bool[,] array, int xOfArray, int yOfArray)
         {
-            boxArr = new PictureBox[xOfArray, yOfArray];
+            boxArr = new Image[xOfArray, yOfArray];
 
             var form = Form.ActiveForm;
 
 			int xStart = 0;
-            int yStart = 25;
+            int yStart = 0;
+
+			int width = xOfArray * 17;
+			int height = yOfArray * 17;
+
+			bitmap = new Bitmap(width, height);
 
 			//Draws a PictureBox for every tile in the given 2D Boolean Array map
 			//Black = false or uninitialized
 			//White = true or initialized
-            for (int i = 0; i < yOfArray; i++)
+			for (int i = 0; i < yOfArray; i++)
             {
                 for (int j = 0; j < xOfArray; j++)
                 {
-                    xStart += 25;
-					PictureBox box = new PictureBox()
-					{
-						Size = new System.Drawing.Size(25, 25),
-						Location = new System.Drawing.Point(xStart, yStart)
-					};
-					boxArr[j, i] = box;
-                    if (array[j, i])
-                    {
-                        box.BackgroundImage = WindowsFormsApplication1.Properties.Resources.white;
-                    }
+					if (array[j, i]) {
+						boxArr[j, i] = WindowsFormsApplication1.Properties.Resources.white;
+					}
 
 					//Uncomment if you want to see the first initialized room
 					/*else if (j == Convert.ToInt32(Math.Floor(Convert.ToDouble((xOfArray) / 2))) && i == Convert.ToInt32(Math.Floor(Convert.ToDouble((yOfArray) / 2))))
 					{
-						box.BackgroundImage = WindowsFormsApplication1.Properties.Resources.red;
+						boxArr[j, i] = WindowsFormsApplication1.Properties.Resources.red;
 					}*/
 
-                    else
-                    {
-                        box.BackgroundImage = WindowsFormsApplication1.Properties.Resources.black;
-                    }
-                    form.Controls.Add(box);
+					else
+					{
+						boxArr[j, i] = WindowsFormsApplication1.Properties.Resources.black;
+					}
+					using (Graphics g = Graphics.FromImage(bitmap))
+					{
+						g.DrawImage(boxArr[j, i], xStart, yStart);
+					}
+
+					xStart += 17;
                 }
                 xStart = 0;
-                yStart += 25;
+                yStart += 17;
             }
-        }
+
+			box = new PictureBox()
+			{
+				Size = new Size((int)Math.Floor((decimal)bitmap.Width * 1.47058824m), (int)Math.Floor((decimal)bitmap.Height * 1.47058824m)),
+				Location = new Point(25, 25)
+			};
+
+			Bitmap resized = new Bitmap((Image)bitmap, new Size((int)Math.Floor((decimal)bitmap.Width * 1.47058824m), (int)Math.Floor((decimal)bitmap.Height * 1.47058824m)));
+			using (Graphics g = Graphics.FromImage(resized))
+			{
+				g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
+				g.CompositingMode = System.Drawing.Drawing2D.CompositingMode.SourceCopy;
+				g.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighQuality;
+				g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.None;
+				g.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.HighQuality;
+
+				g.DrawImage(bitmap, 0, 0, (int)Math.Floor((decimal)bitmap.Width * 1.47058824m), (int)Math.Floor((decimal)bitmap.Height * 1.47058824m));
+			}
+			bitmap = resized;
+			box.BackgroundImage = bitmap;
+
+			form.Controls.Add(box);
+		}
+
+		public static void SaveImg()
+		{
+			bitmap.Save("Yes.png", System.Drawing.Imaging.ImageFormat.Png);
+		}
     }//Class
 }//Namespace

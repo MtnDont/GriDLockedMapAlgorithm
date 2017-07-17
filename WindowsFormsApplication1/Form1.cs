@@ -49,11 +49,16 @@ namespace WindowsFormsApplication1
 
 			NewAlgorithm.NewAlgorithm.NewAlg(Convert.ToInt32(numericUpDown1.Value), Convert.ToInt32(numericUpDown2.Value));
 
-            //PictureBox wow = new PictureBox();
-            //...
-            //wow.BackgroundImage = Properties.Resources.black;
-            //this.Controls.Add(wow);
-        }
+			NewAlgorithm.NewAlgorithm.SaveImg();
+			//FOR TESTING
+			//PictureBox[,] picBox = NewAlgorithm.NewAlgorithm.boxArr;
+
+
+			//PictureBox wow = new PictureBox();
+			//...
+			//wow.BackgroundImage = Properties.Resources.black;
+			//this.Controls.Add(wow);
+		}
 
 		private void Form1_Load(object sender, EventArgs e)
 		{
