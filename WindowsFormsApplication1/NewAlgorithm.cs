@@ -1,4 +1,4 @@
-﻿//Code written by Camron Bartlow in a single day
+﻿//By Camron Bartlow with influence by ideas of rn
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,8 +13,12 @@ namespace NewAlgorithm
     {
         public static PictureBox[,] boxArr = null;
 
-
-        public static void NewAlg(int formX, int formY)
+		/// <summary>
+		/// Runs NAlgorithm and error checks when button in form is pressed
+		/// </summary>
+		/// <param name="formX">Integer value for width from 2-20</param>
+		/// <param name="formY">Integer value for height from 2-20</param>
+		public static void NewAlg(int formX, int formY)
         {
             int x = formX;
             int y = formY;
@@ -39,88 +43,72 @@ namespace NewAlgorithm
             }
         }
 
-        static void NAlgorithm(int x, int y)
+		/// <summary>
+		/// Algorithm that creates a map with a given x and y, initializes a center box and surrounds that initialized box by initializing boxes around it
+		/// </summary>
+		/// <param name="x">Integer value for width from 2-20</param>
+		/// <param name="y">Integer value for height from 2-20</param>
+		static void NAlgorithm(int x, int y)
         {
             Random rand = new Random();
             bool[,] gridTable;
             int changeX;
             int changeY;
 
-            //Sprite[] sprites = (Sprite[])Resources.LoadAll<Sprite>("GridSprites");
-
             double emptyRoomPerc = Math.Round(Convert.ToDouble(rand.Next(30, 51)));
             double numOfRooms = (x * y) - Math.Round(x * y * (emptyRoomPerc / 100));
 
-            //Debug.Log ("numOfRooms: " + numOfRooms);
             gridTable = new bool[x + 2, y + 2];
             //Set center cell to always be a room
             gridTable[Convert.ToInt32(Math.Floor(Convert.ToDouble((x) / 2))), Convert.ToInt32(Math.Floor(Convert.ToDouble((y) / 2)))] = true;
             for (int i = 0; i < numOfRooms - 1; i++)
             {
+                //Keep these unchanged, 0 needs to be their starting state to work
                 int randX = 0;
                 int randY = 0;
                 int randDir = 0;
                 int moveX = 0;
                 int moveY = 0;
-                int instances = 0;
+
+                //TODO: pls clean these do-whiles, I'm getting an aneurysm working with them
                 do
                 {
                     do
                     {
                         do
                         {
-                            randX = Convert.ToInt32(Math.Round(Convert.ToDouble(rand.Next(1, x + 1))));
-                            randY = Convert.ToInt32(Math.Round(Convert.ToDouble(rand.Next(1, y + 1))));
-                            randDir = Convert.ToInt32(Math.Ceiling(Convert.ToDouble(rand.Next(2, 6))));
-                            moveX = 0;
-                            moveY = 0;
-                            if (randDir == 2)
-                            {
-                                moveX = 1;
-                            }
-                            else if (randDir == 3)
-                            {
-                                moveX = -1;
-                            }
-                            else if (randDir == 4)
-                            {
-                                moveY = 1;
-                            }
-                            else if (randDir == 5)
-                            {
-                                moveY = -1;
-                            }
-                            changeX = randX + moveX;
-                            changeY = randY + moveY;
+							do
+							{
+								randX = Convert.ToInt32(Math.Round(Convert.ToDouble(rand.Next(1, x))));
+								randY = Convert.ToInt32(Math.Round(Convert.ToDouble(rand.Next(1, y))));
+								randDir = Convert.ToInt32(Math.Ceiling(Convert.ToDouble(rand.Next(2, 6))));
+								moveX = 0;
+								moveY = 0;
 
-                            while (changeX == 0 || changeX == x + 1 || changeY == 0 || changeY == y + 1)
-                            {
-                                randX = Convert.ToInt32(Math.Round(Convert.ToDouble(rand.Next(1, x))));
-                                randY = Convert.ToInt32(Math.Round(Convert.ToDouble(rand.Next(1, y))));
-                                randDir = Convert.ToInt32(Math.Ceiling(Convert.ToDouble(rand.Next(2, 6))));
-                                moveX = 0;
-                                moveY = 0;
-                                if (randDir == 2)
-                                {
-                                    moveX = 1;
-                                }
-                                else if (randDir == 3)
-                                {
-                                    moveX = -1;
-                                }
-                                else if (randDir == 4)
-                                {
-                                    moveY = 1;
-                                }
-                                else if (randDir == 5)
-                                {
-                                    moveY = -1;
-                                }
-                                changeX = randX + moveX;
-                                changeY = randY + moveY;
-                            }
+								//Chosen random direction
+								switch (randDir)
+								{
+									//Right
+									case 2:
+										moveX = 1;
+										break;
+									//Left
+									case 3:
+										moveX = -1;
+										break;
+									//Down
+									case 4:
+										moveY = 1;
+										break;
+									case 5:
+									//Up
+										moveY = -1;
+										break;
+								}
+								changeX = randX + moveX;
+								changeY = randY + moveY;
+							} while (changeX == 0 || changeX == x + 1 || changeY == 0 || changeY == y + 1);
 
-                            instances++;
                         } while (!gridTable[randX, randY]);// && (randX+moveX) != 0 && (randX+moveX) != 9 && (randY+moveY) != 0 && (randY+moveY) != 9);
                     } while (gridTable[changeX, changeY]);
                 } while (RoomOnAllSides(gridTable, randX, randY) && !RoomAvailableInDir(gridTable, moveX, moveY, randX, randY) && IsBorderClear(gridTable, x, y));
@@ -129,6 +117,14 @@ namespace NewAlgorithm
             }
             VisualizeArray(gridTable, x + 2, y + 2);
         }
+
+		/// <summary>
+		/// Function made to abstract checks for Initilized tiles on all 4 sides(Up, Down, Left, and Right)
+		/// </summary>
+		/// <param name="table">2D Boolean Array of the map</param>
+		/// <param name="xCheck"></param>
+		/// <param name="yCheck"></param>
+		/// <returns></returns>
         static bool[] RoomOnAllSidesArr(bool[,] table, int xCheck, int yCheck)
         {
             bool roomRight = false;
@@ -156,6 +152,8 @@ namespace NewAlgorithm
 
             return onAllSides;
         }
+
+
         static bool RoomOnAllSides(bool[,] table, int xCheck, int yCheck)
         {
             bool[] testTable = RoomOnAllSidesArr(table, xCheck, yCheck);
@@ -217,10 +215,12 @@ namespace NewAlgorithm
                 for (int j = 0; j < xOfArray; j++)
                 {
                     xStart += 25;
-                    PictureBox box = new PictureBox();
-                    box.Size = new System.Drawing.Size(25, 25);
-                    box.Location = new System.Drawing.Point(xStart, yStart);
-                    boxArr[j, i] = box;
+					PictureBox box = new PictureBox()
+					{
+						Size = new System.Drawing.Size(25, 25),
+						Location = new System.Drawing.Point(xStart, yStart)
+					};
+					boxArr[j, i] = box;
                     if (array[j, i] /*&& !(j == Convert.ToInt32(Math.Floor(Convert.ToDouble((xOfArray) / 2))) && i == Convert.ToInt32(Math.Floor(Convert.ToDouble((yOfArray) / 2))))*/)
                     {
                         box.BackgroundImage = WindowsFormsApplication1.Properties.Resources.white;
