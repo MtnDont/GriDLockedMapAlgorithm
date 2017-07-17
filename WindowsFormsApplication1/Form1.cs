@@ -14,23 +14,23 @@ namespace WindowsFormsApplication1
 {
     public partial class Form1 : Form
     {
-		public int buttonX;
-		public int buttonY;
-		public int numUpDown1X;
-		public int numUpDown2X;
-		public int numUpDownY;
-		public int label1X;
-		public int label2X;
-		public int labelY;
+		private int buttonX;
+		private int buttonY;
+		private int numUpDown1X;
+		private int numUpDown2X;
+		private int numUpDownY;
+		private int label1X;
+		private int label2X;
+		private int labelY;
 
-		public bool firstRun = true;
+		private bool firstRun = true;
 
 		public Form1()
         {
             InitializeComponent();
         }
 
-        public void button1_Click(object sender, EventArgs e)
+        public void Button1_Click(object sender, EventArgs e)
         {
 			if (firstRun)
 			{

@@ -29,6 +29,7 @@ namespace WindowsFormsApplication1
         /// </summary>
         private void InitializeComponent()
         {
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
 			this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
 			this.numericUpDown2 = new System.Windows.Forms.NumericUpDown();
 			this.label1 = new System.Windows.Forms.Label();
@@ -41,7 +42,7 @@ namespace WindowsFormsApplication1
 			// numericUpDown1
 			// 
 			this.numericUpDown1.Location = new System.Drawing.Point(52, 47);
-			this.numericUpDown1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.numericUpDown1.Margin = new System.Windows.Forms.Padding(2);
 			this.numericUpDown1.Name = "numericUpDown1";
 			this.numericUpDown1.Size = new System.Drawing.Size(55, 20);
 			this.numericUpDown1.TabIndex = 0;
@@ -49,7 +50,7 @@ namespace WindowsFormsApplication1
 			// numericUpDown2
 			// 
 			this.numericUpDown2.Location = new System.Drawing.Point(179, 47);
-			this.numericUpDown2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.numericUpDown2.Margin = new System.Windows.Forms.Padding(2);
 			this.numericUpDown2.Name = "numericUpDown2";
 			this.numericUpDown2.Size = new System.Drawing.Size(55, 20);
 			this.numericUpDown2.TabIndex = 1;
@@ -77,28 +78,29 @@ namespace WindowsFormsApplication1
 			// button1
 			// 
 			this.button1.Location = new System.Drawing.Point(96, 75);
-			this.button1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.button1.Margin = new System.Windows.Forms.Padding(2);
 			this.button1.Name = "button1";
 			this.button1.Size = new System.Drawing.Size(91, 22);
 			this.button1.TabIndex = 4;
 			this.button1.Text = "Run Algorithm";
 			this.button1.UseVisualStyleBackColor = true;
-			this.button1.Click += new System.EventHandler(this.button1_Click);
+			this.button1.Click += new System.EventHandler(this.Button1_Click);
 			// 
 			// Form1
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.AutoSize = true;
-			this.ClientSize = new System.Drawing.Size(294, 270);
+			this.ClientSize = new System.Drawing.Size(294, 271);
 			this.Controls.Add(this.button1);
 			this.Controls.Add(this.label2);
 			this.Controls.Add(this.label1);
 			this.Controls.Add(this.numericUpDown2);
 			this.Controls.Add(this.numericUpDown1);
-			this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+			this.Margin = new System.Windows.Forms.Padding(2);
 			this.Name = "Form1";
-			this.Text = "Mapping Algorithm";
+			this.Text = "GriDLockedMapAlgorithm";
 			this.Load += new System.EventHandler(this.Form1_Load);
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();

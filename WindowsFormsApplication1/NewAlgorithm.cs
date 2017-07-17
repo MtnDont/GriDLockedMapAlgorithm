@@ -131,6 +131,10 @@ namespace NewAlgorithm
 
 			int xStart = 0;
             int yStart = 25;
+
+			//Draws a PictureBox for every tile in the given 2D Boolean Array map
+			//Black = false or uninitialized
+			//White = true or initialized
             for (int i = 0; i < yOfArray; i++)
             {
                 for (int j = 0; j < xOfArray; j++)
