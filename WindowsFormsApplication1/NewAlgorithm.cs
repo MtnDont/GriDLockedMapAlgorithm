@@ -77,120 +77,44 @@ namespace NewAlgorithm
                 {
                     do
                     {
-                        do
-                        {
-							do
+						do
+						{
+							randX = Convert.ToInt32(Math.Round(Convert.ToDouble(rand.Next(1, x))));
+							randY = Convert.ToInt32(Math.Round(Convert.ToDouble(rand.Next(1, y))));
+							randDir = Convert.ToInt32(Math.Ceiling(Convert.ToDouble(rand.Next(2, 6))));
+							moveX = 0;
+							moveY = 0;
+
+							//Chosen random direction
+							switch (randDir)
 							{
-								randX = Convert.ToInt32(Math.Round(Convert.ToDouble(rand.Next(1, x))));
-								randY = Convert.ToInt32(Math.Round(Convert.ToDouble(rand.Next(1, y))));
-								randDir = Convert.ToInt32(Math.Ceiling(Convert.ToDouble(rand.Next(2, 6))));
-								moveX = 0;
-								moveY = 0;
-
-								//Chosen random direction
-								switch (randDir)
-								{
-									//Right
-									case 2:
-										moveX = 1;
-										break;
-									//Left
-									case 3:
-										moveX = -1;
-										break;
-									//Down
-									case 4:
-										moveY = 1;
-										break;
-									case 5:
+								//Right
+								case 2:
+									moveX = 1;
+									break;
+								//Left
+								case 3:
+									moveX = -1;
+									break;
+								//Down
+								case 4:
+									moveY = 1;
+									break;
+								case 5:
 									//Up
-										moveY = -1;
-										break;
-								}
-								changeX = randX + moveX;
-								changeY = randY + moveY;
-							} while (changeX == 0 || changeX == x + 1 || changeY == 0 || changeY == y + 1);
+									moveY = -1;
+									break;
+							}
+							changeX = randX + moveX;
+							changeY = randY + moveY;
+						} while (changeX == 0 || changeX == x + 1 || changeY == 0 || changeY == y + 1);
 
-                        } while (!gridTable[randX, randY]);// && (randX+moveX) != 0 && (randX+moveX) != 9 && (randY+moveY) != 0 && (randY+moveY) != 9);
-                    } while (gridTable[changeX, changeY]);
-                } while (RoomOnAllSides(gridTable, randX, randY) && !RoomAvailableInDir(gridTable, moveX, moveY, randX, randY));
+                    } while (!gridTable[randX, randY]);// && (randX+moveX) != 0 && (randX+moveX) != 9 && (randY+moveY) != 0 && (randY+moveY) != 9);
+                } while (gridTable[changeX, changeY]);
                 gridTable[changeX, changeY] = true;
 
             }
             VisualizeArray(gridTable, x + 2, y + 2);
-        }
-
-		/// <summary>
-		/// Function made to abstract checks for Initilized tiles on all 4 sides(Up, Down, Left, and Right)
-		/// </summary>
-		/// <param name="table">2D Boolean Array of the map</param>
-		/// <param name="xCheck"></param>
-		/// <param name="yCheck"></param>
-		/// <returns></returns>
-        static bool[] RoomOnAllSidesArr(bool[,] table, int xCheck, int yCheck)
-        {
-            bool roomRight = false;
-            bool roomLeft = false;
-            bool roomUp = false;
-            bool roomDown = false;
-
-			//In place as it can check null areas
-            if (table[xCheck + 1, yCheck] == true)
-            {
-                roomRight = true;
-            }
-            if (table[xCheck - 1, yCheck] == true)
-            {
-                roomLeft = true;
-            }
-            if (table[xCheck, yCheck + 1] == true)
-            {
-                roomDown = true;
-            }
-            if (table[xCheck, yCheck - 1] == true)
-            {
-                roomUp = true;
-            }
-
-            bool[] onAllSides = { roomRight, roomLeft, roomUp, roomDown };
-
-            return onAllSides;
-        }
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="table"></param>
-		/// <param name="xCheck"></param>
-		/// <param name="yCheck"></param>
-		/// <returns></returns>
-        static bool RoomOnAllSides(bool[,] table, int xCheck, int yCheck)
-        {
-            bool[] testTable = RoomOnAllSidesArr(table, xCheck, yCheck);
-            if (testTable[0] || testTable[1] || testTable[2] || testTable[3])
-            {
-				return testTable[0] == testTable[1] && testTable[0] == testTable[2] && testTable[0] == testTable[3];
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        static bool RoomAvailableInDir(bool[,] table, int moveInX, int moveInY, int pointerX, int pointerY)
-        {
-            if (moveInX != 0 && moveInY == 0)
-            {
-				return !table[pointerX + moveInX, pointerY];
-			}
-            else if (moveInX == 0 && moveInY != 0)
-            {
-				return !table[pointerX, pointerY + moveInY];
-			}
-            else
-            {
-                return false;
-            }
         }
 
 		/// <summary>
