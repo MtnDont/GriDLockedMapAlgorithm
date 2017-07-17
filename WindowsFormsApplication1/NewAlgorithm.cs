@@ -1,4 +1,4 @@
-﻿//By Camron Bartlow with influence by ideas of rn
+﻿//By Camron Bartlow with influence by ideas of random algorithms such as the not-so randomness of Bruteforcing and Prim's Algorithm
 using System;
 using System.Collections.Generic;
 using System.Linq;
