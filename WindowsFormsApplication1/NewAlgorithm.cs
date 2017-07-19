@@ -196,7 +196,26 @@ namespace NewAlgorithm
 
 		public static void SaveImg()
 		{
-			bitmap.Save("Yes.png", System.Drawing.Imaging.ImageFormat.Png);
+			if (bitmap != null) {
+				SaveFileDialog f = new SaveFileDialog()
+				{
+					DefaultExt = "png",
+					AddExtension = true,
+					Filter = "BMP files (*.bmp)|*.bmp|GIF files (*.gif)|*.gif|JPG files (*.jpg)|*.jpg|PNG files (*.png)|*.png|All files (*.*)|*.*",
+					FilterIndex = 5,
+					RestoreDirectory = true,
+					FileName = "map"
+				};
+				if (f.ShowDialog() == DialogResult.OK)
+				{
+					bitmap.Save(f.FileName);
+				}
+			}
+			else
+			{
+				MessageBox.Show("The Algorithm must be run at least once.", "Error",
+								MessageBoxButtons.OK, MessageBoxIcon.Error);
+			}
 		}
-    }//Class
+	}//Class
 }//Namespace

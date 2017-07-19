@@ -9,6 +9,8 @@ namespace WindowsFormsApplication1
     {
 		private int buttonX;
 		private int buttonY;
+		private int button2X;
+		private int button2Y;
 		private int numUpDown1X;
 		private int numUpDown2X;
 		private int numUpDownY;
@@ -30,6 +32,8 @@ namespace WindowsFormsApplication1
 				firstRun = false;
 				buttonX = button1.Location.X;
 				buttonY = button1.Location.Y;
+				button2X = button2.Location.X;
+				button2Y = button2.Location.Y;
 				numUpDown1X = numericUpDown1.Location.X;
 				numUpDown2X = numericUpDown2.Location.X;
 				numUpDownY = numericUpDown1.Location.Y;
@@ -41,6 +45,7 @@ namespace WindowsFormsApplication1
 			if (!(numericUpDown2.Value <= 1 || numericUpDown1.Value <= 1 || numericUpDown2.Value > 20 || numericUpDown1.Value > 20))
 			{
 				button1.Location = new Point(buttonX, buttonY + Convert.ToInt32(25 * (numericUpDown2.Value + 2)));
+				button2.Location = new Point(button2X, button2Y + Convert.ToInt32(25 * (numericUpDown2.Value + 2)));
 				numericUpDown1.Location = new Point(numUpDown1X, numUpDownY + Convert.ToInt32(25 * (numericUpDown2.Value + 2)));
 				numericUpDown2.Location = new Point(numUpDown2X, numUpDownY + Convert.ToInt32(25 * (numericUpDown2.Value + 2)));
 				label1.Location = new Point(label1X, labelY + Convert.ToInt32(25 * (numericUpDown2.Value + 2)));
@@ -48,8 +53,6 @@ namespace WindowsFormsApplication1
 			}
 
 			NewAlgorithm.NewAlgorithm.NewAlg(Convert.ToInt32(numericUpDown1.Value), Convert.ToInt32(numericUpDown2.Value));
-
-			NewAlgorithm.NewAlgorithm.SaveImg();
 			//FOR TESTING
 			//PictureBox[,] picBox = NewAlgorithm.NewAlgorithm.boxArr;
 
@@ -63,6 +66,11 @@ namespace WindowsFormsApplication1
 		private void Form1_Load(object sender, EventArgs e)
 		{
 
+		}
+
+		private void button2_Click(object sender, EventArgs e)
+		{
+			NewAlgorithm.NewAlgorithm.SaveImg();
 		}
 	}
 }
