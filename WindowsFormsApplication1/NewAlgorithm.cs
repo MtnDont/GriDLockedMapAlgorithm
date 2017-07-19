@@ -154,7 +154,7 @@ namespace NewAlgorithm
 					{
 						boxArr[j, i] = WindowsFormsApplication1.Properties.Resources.black;
 					}
-					//Uncomment if you want to see the first initialized room
+					//For if you want to see the first initialized room
 					if (j == Convert.ToInt32(Math.Floor(Convert.ToDouble((xOfArray) / 2))) && i == Convert.ToInt32(Math.Floor(Convert.ToDouble((yOfArray) / 2))))
 					{
 						if (checkBox == CheckState.Checked)
