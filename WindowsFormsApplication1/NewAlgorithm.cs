@@ -11,6 +11,7 @@ namespace NewAlgorithm
         public static Image[,] boxArr = null;
 		public static Bitmap bitmap;
 		public static PictureBox box = null;
+		public static CheckState checkBox;
 
 		/// <summary>
 		/// Runs NAlgorithm and error checks when button in form is pressed
@@ -149,17 +150,23 @@ namespace NewAlgorithm
 					if (array[j, i]) {
 						boxArr[j, i] = WindowsFormsApplication1.Properties.Resources.white;
 					}
-
-					//Uncomment if you want to see the first initialized room
-					/*else if (j == Convert.ToInt32(Math.Floor(Convert.ToDouble((xOfArray) / 2))) && i == Convert.ToInt32(Math.Floor(Convert.ToDouble((yOfArray) / 2))))
-					{
-						boxArr[j, i] = WindowsFormsApplication1.Properties.Resources.red;
-					}*/
-
 					else
 					{
 						boxArr[j, i] = WindowsFormsApplication1.Properties.Resources.black;
 					}
+					//Uncomment if you want to see the first initialized room
+					if (j == Convert.ToInt32(Math.Floor(Convert.ToDouble((xOfArray) / 2))) && i == Convert.ToInt32(Math.Floor(Convert.ToDouble((yOfArray) / 2))))
+					{
+						if (checkBox == CheckState.Checked)
+						{
+							boxArr[j, i] = WindowsFormsApplication1.Properties.Resources.red;
+						}
+						else
+						{
+							boxArr[j, i] = WindowsFormsApplication1.Properties.Resources.white;
+						}
+					}
+					
 					using (Graphics g = Graphics.FromImage(bitmap))
 					{
 						g.DrawImage(boxArr[j, i], xStart, yStart);

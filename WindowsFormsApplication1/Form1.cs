@@ -14,6 +14,8 @@ namespace WindowsFormsApplication1
 		private int numUpDown1X;
 		private int numUpDown2X;
 		private int numUpDownY;
+		private int checkBoxX;
+		private int checkBoxY;
 		private int label1X;
 		private int label2X;
 		private int labelY;
@@ -37,6 +39,8 @@ namespace WindowsFormsApplication1
 				numUpDown1X = numericUpDown1.Location.X;
 				numUpDown2X = numericUpDown2.Location.X;
 				numUpDownY = numericUpDown1.Location.Y;
+				checkBoxX = checkBox1.Location.X;
+				checkBoxY = checkBox1.Location.Y;
 				label1X = label1.Location.X;
 				label2X = label2.Location.X;
 				labelY = label1.Location.Y;
@@ -48,10 +52,13 @@ namespace WindowsFormsApplication1
 				button2.Location = new Point(button2X, button2Y + Convert.ToInt32(25 * (numericUpDown2.Value + 2)));
 				numericUpDown1.Location = new Point(numUpDown1X, numUpDownY + Convert.ToInt32(25 * (numericUpDown2.Value + 2)));
 				numericUpDown2.Location = new Point(numUpDown2X, numUpDownY + Convert.ToInt32(25 * (numericUpDown2.Value + 2)));
+				checkBox1.Location = new Point(checkBoxX, checkBoxY + Convert.ToInt32(25 * (numericUpDown2.Value + 2)));
 				label1.Location = new Point(label1X, labelY + Convert.ToInt32(25 * (numericUpDown2.Value + 2)));
 				label2.Location = new Point(label2X, labelY + Convert.ToInt32(25 * (numericUpDown2.Value + 2)));
 			}
 
+
+			NewAlgorithm.NewAlgorithm.checkBox = checkBox1.CheckState;
 			NewAlgorithm.NewAlgorithm.NewAlg(Convert.ToInt32(numericUpDown1.Value), Convert.ToInt32(numericUpDown2.Value));
 			//FOR TESTING
 			//PictureBox[,] picBox = NewAlgorithm.NewAlgorithm.boxArr;
