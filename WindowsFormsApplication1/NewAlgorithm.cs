@@ -12,6 +12,9 @@ namespace NewAlgorithm
 		public static Bitmap bitmap;
 		public static PictureBox box = null;
 		public static CheckState checkBox;
+		public static int[] onBox = new int[2];
+		public static int[] onBoxCheck = new int[2];
+
 
 		/// <summary>
 		/// Runs NAlgorithm and error checks when button in form is pressed
@@ -25,20 +28,16 @@ namespace NewAlgorithm
 
             var form = Form.ActiveForm;
 
-			//1x1 doesn't look visually appealing and over 20 takes awhile to load
-            if (y <= 1 || x <= 1 || y > 20 || x > 20)
+			//1x1, throws crash on 2x2 doesn't look visually appealing and over 20 takes awhile to load
+            if (y <= 2 || x <= 2 || y > 20 || x > 20)
             {
-                MessageBox.Show("X and Y cannot be less than 2 or greater than 20, please input another number", "Error",
+                MessageBox.Show("X and Y cannot be less than 3 or greater than 20, please input another number", "Error",
                                 MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             else
             {
                 if (boxArr != null) {
-                    for (int i = 0; i < boxArr.GetLength(1); i++) {
-                        for (int j = 0; j < boxArr.GetLength(0); j++) {
-                            form.Controls.Remove(box);
-                        }
-                    }
+					form.Controls.Remove(box);
                 }
                 NAlgorithm(x, y);
             }
@@ -64,8 +63,8 @@ namespace NewAlgorithm
 			//gives gridTable a border aka a tile row/column on each side
             gridTable = new bool[x + 2, y + 2];
 
-            //Set center cell to always be a room
-            gridTable[Convert.ToInt32(Math.Floor(Convert.ToDouble((x) / 2))), Convert.ToInt32(Math.Floor(Convert.ToDouble((y) / 2)))] = true;
+			//Set center cell to always be a room
+			gridTable[Convert.ToInt32(Math.Ceiling(Convert.ToDouble((x+2) / 2))), Convert.ToInt32(Math.Ceiling(Convert.ToDouble((y+2) / 2)))] = true;
             for (int i = 0; i < numOfRooms - 1; i++)
             {
                 //Keep these unchanged, 0 needs to be their starting state to work
@@ -149,22 +148,23 @@ namespace NewAlgorithm
                 {
 					if (array[j, i]) {
 						boxArr[j, i] = WindowsFormsApplication1.Properties.Resources.white;
+
+						//For if you want to see the first initialized room
+						if (j == Convert.ToInt32(Math.Ceiling(Convert.ToDouble((xOfArray) / 2))) && i == Convert.ToInt32(Math.Ceiling(Convert.ToDouble((yOfArray) / 2))))
+						{
+							if (checkBox == CheckState.Checked)
+							{
+								boxArr[j, i] = WindowsFormsApplication1.Properties.Resources.red;
+							}
+							else
+							{
+								boxArr[j, i] = WindowsFormsApplication1.Properties.Resources.white;
+							}
+						}
 					}
 					else
 					{
 						boxArr[j, i] = WindowsFormsApplication1.Properties.Resources.black;
-					}
-					//For if you want to see the first initialized room
-					if (j == Convert.ToInt32(Math.Floor(Convert.ToDouble((xOfArray) / 2))) && i == Convert.ToInt32(Math.Floor(Convert.ToDouble((yOfArray) / 2))))
-					{
-						if (checkBox == CheckState.Checked)
-						{
-							boxArr[j, i] = WindowsFormsApplication1.Properties.Resources.red;
-						}
-						else
-						{
-							boxArr[j, i] = WindowsFormsApplication1.Properties.Resources.white;
-						}
 					}
 					
 					using (Graphics g = Graphics.FromImage(bitmap))
